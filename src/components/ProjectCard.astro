@@ -1,0 +1,137 @@
+---
+interface Props {
+	title: string;
+	description: string;
+	href?: string;
+	tags?: string[];
+	status?: 'active' | 'beta' | 'deprecated' | 'coming-soon';
+}
+
+const { title, description, href, tags = [], status } = Astro.props;
+
+const statusColors: Record<string, string> = {
+	'active': 'var(--vp-c-green)',
+	'beta': 'var(--vp-c-yellow)',
+	'deprecated': 'var(--vp-c-red)',
+	'coming-soon': 'var(--vp-c-brand)',
+};
+
+const statusLabels: Record<string, string> = {
+	'active': 'Active',
+	'beta': 'Beta',
+	'deprecated': 'Deprecated',
+	'coming-soon': 'Coming Soon',
+};
+---
+
+<article class="project-card">
+	<div class="card-content">
+		<div class="card-header">
+			<h3 class="card-title">
+				{href ? (
+					<a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noopener' : undefined}>
+						{title}
+						{href.startsWith('http') && (
+							<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="external-icon">
+								<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+								<polyline points="15 3 21 3 21 9"></polyline>
+								<line x1="10" y1="14" x2="21" y2="3"></line>
+							</svg>
+						)}
+					</a>
+				) : (
+					title
+				)}
+			</h3>
+			{status && (
+				<span class="status-badge" style={`--status-color: ${statusColors[status]}`}>
+					{statusLabels[status]}
+				</span>
+			)}
+		</div>
+		<p class="card-description">{description}</p>
+		{tags.length > 0 && (
+			<div class="card-tags">
+				{tags.map((tag) => (
+					<span class="tag">{tag}</span>
+				))}
+			</div>
+		)}
+	</div>
+</article>
+
+<style>
+	.project-card {
+		background: var(--vp-c-bg-soft);
+		border: 1px solid var(--vp-c-divider);
+		border-radius: 12px;
+		padding: 24px;
+		transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+	}
+
+	.project-card:hover {
+		border-color: var(--vp-c-brand);
+		transform: translateY(-2px);
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+	}
+
+	.card-header {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		margin-bottom: 12px;
+		flex-wrap: wrap;
+	}
+
+	.card-title {
+		font-size: 18px;
+		font-weight: 600;
+		color: var(--vp-c-text-1);
+		margin: 0;
+	}
+
+	.card-title a {
+		color: inherit;
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+	}
+
+	.card-title a:hover {
+		color: var(--vp-c-brand);
+	}
+
+	.external-icon {
+		opacity: 0.5;
+	}
+
+	.status-badge {
+		font-size: 12px;
+		font-weight: 500;
+		padding: 2px 8px;
+		border-radius: 10px;
+		background: color-mix(in srgb, var(--status-color) 15%, transparent);
+		color: var(--status-color);
+	}
+
+	.card-description {
+		font-size: 14px;
+		line-height: 1.6;
+		color: var(--vp-c-text-2);
+		margin: 0 0 16px;
+	}
+
+	.card-tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+
+	.tag {
+		font-size: 12px;
+		padding: 4px 10px;
+		background: var(--vp-c-bg-mute);
+		color: var(--vp-c-text-2);
+		border-radius: 6px;
+	}
+</style>

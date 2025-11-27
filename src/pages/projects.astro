@@ -1,0 +1,305 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import discordjsLogo from '../assets/discordjs.svg';
+
+interface Project {
+	title: string;
+	description: string;
+	href?: string;
+	techStack: ('typescript' | 'javascript' | 'nodejs' | 'sqlite' | 'discord' | 'esm')[];
+	status: 'active' | 'beta' | 'deprecated' | 'coming-soon';
+}
+
+const projects: Project[] = [
+	{
+		title: 'CoreBot',
+		description: 'A modular Discord bot framework featuring an addon system, database integration, event handling, and extensive configuration options. Built with modern ESM standards.',
+		href: '/projects/corebot',
+		techStack: ['typescript', 'nodejs', 'sqlite', 'discord', 'esm'],
+		status: 'active'
+	},
+];
+
+const techIcons: Record<string, { svg?: string; image?: string; label: string; color: string }> = {
+	typescript: {
+		label: 'TypeScript',
+		color: '#3178c6',
+		svg: `<svg viewBox="0 0 128 128" width="20" height="20"><path fill="#3178c6" d="M2 63.91v62.5h125v-125H2zm100.73-5a15.56 15.56 0 017.82 4.5 20.58 20.58 0 013 4c0 .16-5.4 3.81-8.69 5.85-.12.08-.6-.44-1.13-1.23a7.09 7.09 0 00-5.87-3.53c-3.79-.26-6.23 1.73-6.21 5a4.58 4.58 0 00.54 2.34c.83 1.73 2.38 2.76 7.24 4.86 8.95 3.85 12.78 6.39 15.16 10 2.66 4 3.25 10.46 1.45 15.24-2 5.2-6.9 8.73-13.83 9.9a38.32 38.32 0 01-9.52-.1A23.09 23.09 0 0177.44 98a22.81 22.81 0 01-3.45-4.75c0-.11 1.03-.68 2.29-1.25 1.25-.58 3.18-1.46 4.28-1.96l2-1 1.21 1.81a15.64 15.64 0 006.59 5.48 11.3 11.3 0 0010.78-.24 5.47 5.47 0 002.4-4.68 5.08 5.08 0 00-.83-3.11c-1-1.58-3-2.73-8.73-5-6.53-2.64-9.38-4.27-11.92-6.87a15.59 15.59 0 01-3.52-7.09 27.42 27.42 0 01-.21-8c1.28-6.25 5.87-10.66 12.48-12a37.83 37.83 0 0110.22 0zM73 68v6.5H57.77v44.5h-11v-44.5H32v-6.25a54.22 54.22 0 01.15-6.45c.06-.11 9.31-.17 20.58-.14l20.42.07z"/></svg>`
+	},
+	javascript: {
+		label: 'JavaScript',
+		color: '#f7df1e',
+		svg: `<svg viewBox="0 0 128 128" width="20" height="20"><path fill="#F7DF1E" d="M2 2h124v124H2z"/><path d="M89.52 87.73c2.18 3.56 5.02 6.18 10.04 6.18 4.22 0 6.9-2.11 6.9-5.02 0-3.49-2.76-4.73-7.4-6.76l-2.54-1.09c-7.33-3.12-12.2-7.04-12.2-15.32 0-7.63 5.81-13.43 14.9-13.43 6.47 0 11.12 2.25 14.47 8.14l-7.93 5.09c-1.74-3.13-3.63-4.36-6.54-4.36-2.98 0-4.87 1.89-4.87 4.36 0 3.05 1.89 4.29 6.26 6.18l2.54 1.09c8.64 3.7 13.51 7.48 13.51 15.97 0 9.15-7.19 14.17-16.85 14.17-9.45 0-15.56-4.5-18.54-10.4zm-40.06 1.27c1.6 2.83 3.05 5.23 6.54 5.23 3.34 0 5.45-1.31 5.45-6.4V53.93h10.18v34.07c0 10.54-6.18 15.34-15.21 15.34-8.14 0-12.86-4.22-15.27-9.29z"/></svg>`
+	},
+	nodejs: {
+		label: 'Node.js',
+		color: '#339933',
+		svg: `<svg viewBox="0 0 128 128" width="20" height="20"><path fill="#339933" d="M112.77 30.34L68.24 4.67a8.38 8.38 0 00-8.48 0L15.23 30.34a8.52 8.52 0 00-4.24 7.36v51.32a8.52 8.52 0 004.24 7.37l44.53 25.66a8.38 8.38 0 008.48 0l44.53-25.66a8.52 8.52 0 004.24-7.37V37.7a8.52 8.52 0 00-4.24-7.36zM64 88.63c-13.6 0-24.63-11.03-24.63-24.63S50.4 39.37 64 39.37 88.63 50.4 88.63 64 77.6 88.63 64 88.63z"/></svg>`
+	},
+	sqlite: {
+		label: 'SQLite',
+		color: '#0f9eda',
+		svg: `<svg viewBox="0 0 128 128" width="20" height="20"><path fill="#0f9eda" d="M113.61 68.93c-.3-7.35-2.16-15.47-5.56-24.19-6.79-17.41-18.13-32.27-26.35-40.37C70.8-6.23 56.6 2.9 52.56 7.28c-6.12 6.64-17.33 23.42-23.17 46.54a97.53 97.53 0 00-2.77 18.27c-.56 8.49.23 16.16 2.3 22.87 3.6 11.65 10.77 20.1 20.73 24.42a36.59 36.59 0 0013.72 3.3c1.1.05 2.2.05 3.27 0 14.06-.67 28.4-9.65 38.35-24.08 7.93-11.5 9.24-22.06 8.62-29.67z"/><path fill="#003b57" d="M71.93 26.14c-.18-.18-.36-.36-.54-.52-4.6-4.22-11.6-2.71-14.56.73-4.69 5.44-7.22 17.16-7.22 17.16s6.11 2.92 11.12 2.82c5-.1 11.63-5.44 12.54-11.63.64-4.35-.3-7.56-1.34-8.56z"/><path fill="#003b57" d="M85.23 50.99c-1.37-2.24-5.4-5.82-11.64-5.51-5.26.26-8.52 2.4-12.46 2.4-3.93 0-7.5-1.82-12.56-1.02-5.07.8-9.9 5.07-11.15 10.9-2.66 12.36 1.87 32.06 6.18 43.24 2.1 5.45 5.6 14.8 12.16 15.21.63.04 1.26.04 1.89 0 3.31-.22 5.55-2.2 9.19-2.3 3.65-.1 5.62 2.02 9.08 2.3h.63c6.7-.37 9.96-9.93 12.03-15.37 4.25-11.16 8.07-30.14-.01-49.85h.66z"/></svg>`
+	},
+	discord: {
+		label: 'Discord.js',
+		color: '#5865F2',
+		image: discordjsLogo.src
+	},
+	esm: {
+		label: 'ESM',
+		color: '#f59e0b',
+		svg: `<svg viewBox="0 0 128 128" width="20" height="20"><rect fill="#f59e0b" width="128" height="128" rx="12"/><text x="64" y="78" font-family="Arial, sans-serif" font-size="42" font-weight="bold" fill="white" text-anchor="middle">ESM</text></svg>`
+	},
+};
+const statusColors: Record<string, string> = {
+	'active': 'var(--vp-c-green)',
+	'beta': 'var(--vp-c-yellow)',
+	'deprecated': 'var(--vp-c-red)',
+	'coming-soon': 'var(--vp-c-brand)',
+};
+
+const statusLabels: Record<string, string> = {
+	'active': 'Active',
+	'beta': 'Beta',
+	'deprecated': 'Deprecated',
+	'coming-soon': 'Coming Soon',
+};
+---
+
+<Layout title="Projects - RIKTIGATOMTEN">
+	<Navbar currentPath="/projects" />
+	<main class="page-container">
+		<div class="page-header">
+			<h1 class="page-title">Projects</h1>
+			<p class="page-description">
+				Open source projects built with modern standards. All projects use ESM and are available on GitHub.
+			</p>
+		</div>
+		
+		<div class="projects-grid">
+			{projects.map((project) => (
+				<a href={project.href} class="project-card-link">
+					<article class="project-card">
+						<div class="card-header">
+							<div class="title-row">
+								<h3 class="card-title">{project.title}</h3>
+								<div class="tech-icons">
+									{project.techStack.map((tech) => (
+										techIcons[tech].image ? (
+											<img class="tech-icon" src={techIcons[tech].image} alt={techIcons[tech].label} title={techIcons[tech].label} width="20" height="20" />
+										) : (
+											<span class="tech-icon" title={techIcons[tech].label} set:html={techIcons[tech].svg} />
+										)
+									))}
+								</div>
+							</div>
+							<span class="status-badge" style={`--status-color: ${statusColors[project.status]}`}>
+								{statusLabels[project.status]}
+							</span>
+						</div>
+						<p class="card-description">{project.description}</p>
+						<div class="tech-labels">
+							{project.techStack.map((tech) => (
+								<span class="tech-label" style={`--tech-color: ${techIcons[tech].color}`}>
+									{techIcons[tech].label}
+								</span>
+							))}
+						</div>
+						<span class="read-more">
+							Read more
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+						</span>
+					</article>
+				</a>
+			))}
+		</div>
+	</main>
+	<Footer />
+</Layout>
+
+<style>
+	.page-container {
+		max-width: 1152px;
+		margin: 0 auto;
+		padding: calc(var(--vp-nav-height) + 48px) 24px 96px;
+	}
+
+	.page-header {
+		margin-bottom: 48px;
+		text-align: center;
+	}
+
+	.page-title {
+		font-size: 40px;
+		font-weight: 700;
+		color: var(--vp-c-text-1);
+		margin-bottom: 16px;
+	}
+
+	.page-description {
+		font-size: 18px;
+		color: var(--vp-c-text-2);
+		max-width: 600px;
+		margin: 0 auto;
+		line-height: 1.6;
+	}
+
+	.projects-grid {
+		display: grid;
+		grid-template-columns: repeat(1, 1fr);
+		gap: 24px;
+	}
+
+	@media (min-width: 768px) {
+		.projects-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	/* Project Card Link */
+	.project-card-link {
+		text-decoration: none;
+		display: block;
+	}
+
+	/* Project Card */
+	.project-card {
+		background: var(--vp-c-bg-soft);
+		border: 1px solid var(--vp-c-divider);
+		border-radius: 12px;
+		padding: 24px;
+		transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+		cursor: pointer;
+	}
+
+	.project-card:hover {
+		border-color: var(--vp-c-brand);
+		transform: translateY(-2px);
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+	}
+
+	.card-header {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 12px;
+		margin-bottom: 12px;
+		flex-wrap: wrap;
+	}
+
+	.title-row {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		flex-wrap: wrap;
+	}
+
+	.card-title {
+		font-size: 20px;
+		font-weight: 600;
+		color: var(--vp-c-text-1);
+		margin: 0;
+	}
+
+	.card-title a {
+		color: inherit;
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+	}
+
+	.card-title a:hover {
+		color: var(--vp-c-brand);
+	}
+
+	.external-icon {
+		opacity: 0.5;
+	}
+
+	.tech-icons {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.tech-icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		opacity: 0.9;
+		transition: opacity 0.2s, transform 0.2s;
+	}
+
+	.tech-icon:hover {
+		opacity: 1;
+		transform: scale(1.15);
+	}
+
+	.status-badge {
+		font-size: 12px;
+		font-weight: 500;
+		padding: 4px 10px;
+		border-radius: 10px;
+		background: color-mix(in srgb, var(--status-color) 15%, transparent);
+		color: var(--status-color);
+		white-space: nowrap;
+	}
+
+	.card-description {
+		font-size: 14px;
+		line-height: 1.6;
+		color: var(--vp-c-text-2);
+		margin: 0 0 16px;
+	}
+
+	.tech-labels {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		margin-bottom: 16px;
+	}
+
+	.tech-label {
+		font-size: 12px;
+		padding: 4px 10px;
+		background: color-mix(in srgb, var(--tech-color) 12%, var(--vp-c-bg-mute));
+		color: var(--tech-color);
+		border-radius: 6px;
+		font-weight: 500;
+	}
+
+	.read-more {
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+		font-size: 14px;
+		font-weight: 500;
+		color: var(--vp-c-brand);
+		transition: gap 0.2s;
+	}
+
+	.project-card:hover .read-more {
+		gap: 8px;
+	}
+
+	.read-more svg {
+		transition: transform 0.2s;
+	}
+
+	.project-card:hover .read-more svg {
+		transform: translateX(2px);
+	}
+
+	@media (min-width: 960px) {
+		.page-container {
+			padding: calc(var(--vp-nav-height) + 64px) 64px 128px;
+		}
+
+		.page-title {
+			font-size: 48px;
+		}
+	}
+</style>

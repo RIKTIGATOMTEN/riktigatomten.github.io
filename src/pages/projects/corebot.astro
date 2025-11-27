@@ -1,0 +1,748 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import discordjsLogo from '../../assets/discordjs.svg';
+
+const techStack = [
+	{ name: 'TypeScript', color: '#3178c6' },
+	{ name: 'Node.js', color: '#339933' },
+	{ name: 'SQLite', color: '#0f9eda' },
+	{ name: 'Discord.js', color: '#5865F2' },
+	{ name: 'ESM', color: '#f59e0b' },
+];
+
+const features = [
+	{
+		icon: '🗄️',
+		title: 'Database Layer',
+		description: 'SQLite support with automatic schema initialization. Load schemas from .sql files—just drop them in your addon.',
+	},
+	{
+		icon: '📡',
+		title: 'Event Bus (AddonBus)',
+		description: 'Namespaced events to prevent collisions. Emit events from one addon, listen in another.',
+	},
+	{
+		icon: '🔌',
+		title: 'Addon Registry',
+		description: 'Register public APIs for cross-addon communication with dependency resolution between addons.',
+	},
+	{
+		icon: '⚡',
+		title: 'Interaction System',
+		description: 'Centralized handler registration for buttons, modals, select menus with priority-based routing.',
+	},
+	{
+		icon: '🛡️',
+		title: 'Protection Utilities',
+		description: 'Built-in rate limiting per user/action, duplicate request detection, and request tracking.',
+	},
+	{
+		icon: '📦',
+		title: 'Caching System',
+		description: 'Namespaced cache per addon with JSON or binary encoding options and automatic directory management.',
+	},
+];
+
+const comparison = [
+	{ feature: 'Command registration', scratch: '~200 lines', core: 'Built-in' },
+	{ feature: 'Database setup', scratch: '~150 lines', core: 'Auto-configured' },
+	{ feature: 'Intent management', scratch: 'Manual per feature', core: 'Declarative per addon' },
+	{ feature: 'Error handling', scratch: 'DIY', core: 'Comprehensive system' },
+	{ feature: 'Rate limiting', scratch: 'DIY', core: 'Built-in protection' },
+	{ feature: 'Module system', scratch: 'DIY', core: 'Addon architecture' },
+	{ feature: 'Event bus', scratch: 'DIY', core: 'Ready to use' },
+	{ feature: 'Caching', scratch: 'DIY', core: 'Namespaced per addon' },
+];
+---
+
+<Layout title="CoreBot - RIKTIGATOMTEN">
+	<Navbar currentPath="/projects" />
+	<main class="page-container">
+		<!-- Hero Section -->
+		<section class="project-hero">
+			<a href="/projects" class="back-link">
+				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+				Back to Projects
+			</a>
+			
+			<div class="hero-content">
+				<div class="hero-text">
+					<div class="project-badge">Active Project</div>
+					<h1 class="project-title">CoreBot</h1>
+					<p class="project-tagline">A modular Discord bot framework that lets you focus on features, not infrastructure.</p>
+					
+					<div class="tech-stack">
+						{techStack.map((tech) => (
+							<span class="tech-tag" style={`--tech-color: ${tech.color}`}>{tech.name}</span>
+						))}
+					</div>
+					
+					<div class="hero-actions">
+						<a href="https://github.com/RIKTIGATOMTEN/CoreBot" target="_blank" rel="noopener" class="btn primary">
+							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+							View on GitHub
+						</a>
+						<a href="https://riktigatomten.github.io/CoreBot-Docs/" target="_blank" rel="noopener" class="btn secondary">
+							Read Documentation
+						</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- The Story Section -->
+		<section class="content-section">
+			<h2 class="section-title">The Story Behind Core</h2>
+			<div class="prose">
+				<p>It all started with FiveM. I was making a lot of Discord bots for different servers, and I kept running into the same frustrating pattern: <strong>rewriting the same logic over and over again</strong>.</p>
+				
+				<p>Every new bot meant:</p>
+				<ul>
+					<li>Setting up database connections again</li>
+					<li>Recreating command handlers</li>
+					<li>Rebuilding event systems</li>
+					<li>Reinventing error handling</li>
+					<li>Copy-pasting utility functions</li>
+				</ul>
+				
+				<p>I was spending more time on infrastructure than actually building the features my clients wanted. So I started building Core as a simple framework to stop repeating myself.</p>
+				
+				<p>At first, it was basic—just a way to load modules and handle commands. But as I used it across more projects, it grew into something much more powerful.</p>
+			</div>
+		</section>
+
+		<!-- The Addon System -->
+		<section class="content-section highlight">
+			<h2 class="section-title">The Addon System Changed Everything</h2>
+			<div class="prose">
+				<p>Instead of starting from scratch each time, I could:</p>
+				<div class="benefit-grid">
+					<div class="benefit-card">
+						<span class="benefit-icon">♻️</span>
+						<h3>Reuse</h3>
+						<p>The same Core across all my projects</p>
+					</div>
+					<div class="benefit-card">
+						<span class="benefit-icon">🎯</span>
+						<h3>Focus</h3>
+						<p>On building features, not infrastructure</p>
+					</div>
+					<div class="benefit-card">
+						<span class="benefit-icon">⏱️</span>
+						<h3>Save</h3>
+						<p>Hours (sometimes days) of development time</p>
+					</div>
+					<div class="benefit-card">
+						<span class="benefit-icon">🧩</span>
+						<h3>Compose</h3>
+						<p>Functionality by mixing and matching addons</p>
+					</div>
+				</div>
+				<p>A ticket system from one project could be dropped into another. A leveling system could be extended with custom commands. Moderation tools could be shared across multiple bots.</p>
+			</div>
+		</section>
+
+		<!-- Comparison Table -->
+		<section class="content-section">
+			<h2 class="section-title">Building From Scratch vs Using Core</h2>
+			<div class="prose">
+				<p>Let's be real—building a Discord bot from scratch is absolutely possible. Discord.js is well-documented and powerful. But here's what you'll end up building yourself:</p>
+			</div>
+			<div class="comparison-table">
+				<div class="table-header">
+					<span>Feature</span>
+					<span>From Scratch</span>
+					<span>With Core</span>
+				</div>
+				{comparison.map((row) => (
+					<div class="table-row">
+						<span class="feature-name">{row.feature}</span>
+						<span class="scratch-value">{row.scratch}</span>
+						<span class="core-value">{row.core}</span>
+					</div>
+				))}
+			</div>
+			<p class="table-note">That's roughly <strong>500-1000 lines</strong> of infrastructure code before you write a single feature.</p>
+		</section>
+
+		<!-- Features Grid -->
+		<section class="content-section">
+			<h2 class="section-title">What Core Provides</h2>
+			<div class="features-grid">
+				{features.map((feature) => (
+					<div class="feature-card">
+						<span class="feature-icon">{feature.icon}</span>
+						<h3>{feature.title}</h3>
+						<p>{feature.description}</p>
+					</div>
+				))}
+			</div>
+		</section>
+
+		<!-- Philosophy -->
+		<section class="content-section">
+			<h2 class="section-title">The Philosophy</h2>
+			<div class="philosophy-grid">
+				<div class="philosophy-card">
+					<h3>Developer Experience First</h3>
+					<p>If it's annoying to use, it's not worth using. Core should make your life easier, not harder.</p>
+				</div>
+				<div class="philosophy-card">
+					<h3>Modularity Without Complexity</h3>
+					<p>Addons should be simple to create and easy to understand. No magic, no hidden behavior.</p>
+				</div>
+				<div class="philosophy-card">
+					<h3>Production Ready</h3>
+					<p>Built from real projects, for real projects. Rate limiting, error handling, and performance aren't afterthoughts.</p>
+				</div>
+				<div class="philosophy-card">
+					<h3>Open and Transparent</h3>
+					<p>No vendor lock-in, no black boxes. If you want to know how something works, read the code.</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- Freedom Section -->
+		<section class="content-section highlight">
+			<h2 class="section-title">Core Doesn't Lock You In</h2>
+			<div class="prose">
+				<p>This isn't a restrictive framework with its own special way of doing things. Core simply:</p>
+				<ul>
+					<li>Handles the boring infrastructure stuff</li>
+					<li>Runs your code directly</li>
+					<li>Stays out of your way</li>
+					<li>Gives you full access to Discord.js</li>
+				</ul>
+				<p>You write normal TypeScript/JavaScript. You use Discord.js like you always would. Core just makes it modular and reusable.</p>
+				
+				<div class="freedom-examples">
+					<div class="freedom-item">
+						<strong>Want to structure your addon differently?</strong>
+						<span>Go ahead—as long as you have an <code>addon.info</code>, you're good.</span>
+					</div>
+					<div class="freedom-item">
+						<strong>Need to access the Discord client directly?</strong>
+						<span>It's right there via <code>globalThis.client</code>.</span>
+					</div>
+					<div class="freedom-item">
+						<strong>Want to use a different database?</strong>
+						<span>The database layer is completely optional.</span>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Honest Limitations -->
+		<section class="content-section">
+			<h2 class="section-title">Honest Limitations</h2>
+			<div class="prose">
+				<p>No framework is perfect. Here's where Core falls short:</p>
+			</div>
+			<div class="limitations-list">
+				<div class="limitation-item">
+					<span class="limitation-number">1</span>
+					<div>
+						<strong>SQLite only</strong>
+						<p>The database layer doesn't support other databases yet</p>
+					</div>
+				</div>
+				<div class="limitation-item">
+					<span class="limitation-number">2</span>
+					<div>
+						<strong>No sharding</strong>
+						<p>You'll implement this yourself for large bots</p>
+					</div>
+				</div>
+				<div class="limitation-item">
+					<span class="limitation-number">3</span>
+					<div>
+						<strong>Single maintainer</strong>
+						<p>Updates may be slow; this is a passion project</p>
+					</div>
+				</div>
+				<div class="limitation-item">
+					<span class="limitation-number">4</span>
+					<div>
+						<strong>Documentation gaps</strong>
+						<p>We're actively improving, but some areas are sparse</p>
+					</div>
+				</div>
+			</div>
+			<p class="limitation-note">If any of these are dealbreakers, that's okay. Use what works for you.</p>
+		</section>
+
+		<!-- CTA Section -->
+		<section class="cta-section">
+			<h2>Ready to Build?</h2>
+			<p>Check out the documentation to get started with CoreBot, or view the source code on GitHub.</p>
+			<div class="cta-actions">
+				<a href="https://github.com/RIKTIGATOMTEN/CoreBot" target="_blank" rel="noopener" class="btn primary">
+					View on GitHub
+				</a>
+				<a href="https://riktigatomten.github.io/CoreBot-Docs/" target="_blank" rel="noopener" class="btn secondary">
+					Read Documentation
+				</a>
+			</div>
+		</section>
+	</main>
+	<Footer />
+</Layout>
+
+<style>
+	.page-container {
+		max-width: 900px;
+		margin: 0 auto;
+		padding: calc(var(--vp-nav-height) + 32px) 24px 96px;
+	}
+
+	/* Back Link */
+	.back-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		font-size: 14px;
+		font-weight: 500;
+		color: var(--vp-c-text-2);
+		margin-bottom: 32px;
+		transition: color 0.25s;
+	}
+
+	.back-link:hover {
+		color: var(--vp-c-brand);
+	}
+
+	/* Hero Section */
+	.project-hero {
+		margin-bottom: 64px;
+	}
+
+	.hero-content {
+		display: flex;
+		flex-direction: column;
+		gap: 32px;
+	}
+
+	.project-badge {
+		display: inline-block;
+		font-size: 12px;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+		padding: 6px 12px;
+		background: var(--vp-c-green-soft);
+		color: var(--vp-c-green);
+		border-radius: 20px;
+		margin-bottom: 16px;
+	}
+
+	.project-title {
+		font-size: 48px;
+		font-weight: 700;
+		color: var(--vp-c-text-1);
+		margin-bottom: 16px;
+		line-height: 1.2;
+	}
+
+	.project-tagline {
+		font-size: 20px;
+		color: var(--vp-c-text-2);
+		line-height: 1.6;
+		margin-bottom: 24px;
+	}
+
+	.tech-stack {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		margin-bottom: 32px;
+	}
+
+	.tech-tag {
+		font-size: 13px;
+		font-weight: 500;
+		padding: 6px 14px;
+		background: color-mix(in srgb, var(--tech-color) 12%, var(--vp-c-bg-soft));
+		color: var(--tech-color);
+		border-radius: 20px;
+	}
+
+	.hero-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 12px;
+	}
+
+	.btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		padding: 12px 24px;
+		font-size: 15px;
+		font-weight: 600;
+		border-radius: 8px;
+		transition: all 0.25s;
+	}
+
+	.btn.primary {
+		background: var(--vp-c-brand);
+		color: white;
+	}
+
+	.btn.primary:hover {
+		background: var(--vp-c-brand-dark);
+	}
+
+	.btn.secondary {
+		background: var(--vp-c-bg-soft);
+		color: var(--vp-c-text-1);
+		border: 1px solid var(--vp-c-divider);
+	}
+
+	.btn.secondary:hover {
+		background: var(--vp-c-bg-mute);
+		border-color: var(--vp-c-brand);
+	}
+
+	/* Content Sections */
+	.content-section {
+		margin-bottom: 64px;
+	}
+
+	.content-section.highlight {
+		background: var(--vp-c-bg-soft);
+		margin-left: -24px;
+		margin-right: -24px;
+		padding: 48px 24px;
+		border-radius: 12px;
+	}
+
+	.section-title {
+		font-size: 28px;
+		font-weight: 700;
+		color: var(--vp-c-text-1);
+		margin-bottom: 24px;
+	}
+
+	.prose {
+		font-size: 16px;
+		line-height: 1.8;
+		color: var(--vp-c-text-2);
+	}
+
+	.prose p {
+		margin-bottom: 16px;
+	}
+
+	.prose ul {
+		margin: 16px 0;
+		padding-left: 24px;
+	}
+
+	.prose li {
+		margin-bottom: 8px;
+	}
+
+	.prose strong {
+		color: var(--vp-c-text-1);
+	}
+
+	.prose code {
+		font-size: 14px;
+		padding: 2px 6px;
+		background: var(--vp-c-bg-mute);
+		border-radius: 4px;
+		color: var(--vp-c-brand);
+	}
+
+	/* Benefit Grid */
+	.benefit-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 16px;
+		margin: 32px 0;
+	}
+
+	.benefit-card {
+		background: var(--vp-c-bg);
+		border: 1px solid var(--vp-c-divider);
+		border-radius: 12px;
+		padding: 24px;
+		text-align: center;
+	}
+
+	.benefit-icon {
+		font-size: 32px;
+		display: block;
+		margin-bottom: 12px;
+	}
+
+	.benefit-card h3 {
+		font-size: 18px;
+		font-weight: 600;
+		color: var(--vp-c-text-1);
+		margin-bottom: 8px;
+	}
+
+	.benefit-card p {
+		font-size: 14px;
+		color: var(--vp-c-text-2);
+		margin: 0;
+	}
+
+	/* Comparison Table */
+	.comparison-table {
+		background: var(--vp-c-bg-soft);
+		border: 1px solid var(--vp-c-divider);
+		border-radius: 12px;
+		overflow: hidden;
+		margin: 24px 0;
+	}
+
+	.table-header,
+	.table-row {
+		display: grid;
+		grid-template-columns: 2fr 1fr 1fr;
+		padding: 16px 20px;
+	}
+
+	.table-header {
+		background: var(--vp-c-bg-mute);
+		font-size: 13px;
+		font-weight: 600;
+		color: var(--vp-c-text-1);
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+	}
+
+	.table-row {
+		border-top: 1px solid var(--vp-c-divider);
+		font-size: 14px;
+	}
+
+	.feature-name {
+		color: var(--vp-c-text-1);
+		font-weight: 500;
+	}
+
+	.scratch-value {
+		color: var(--vp-c-text-3);
+	}
+
+	.core-value {
+		color: var(--vp-c-green);
+		font-weight: 500;
+	}
+
+	.table-note {
+		font-size: 15px;
+		color: var(--vp-c-text-2);
+		margin-top: 16px;
+	}
+
+	/* Features Grid */
+	.features-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 20px;
+	}
+
+	.feature-card {
+		background: var(--vp-c-bg-soft);
+		border: 1px solid var(--vp-c-divider);
+		border-radius: 12px;
+		padding: 24px;
+		transition: border-color 0.25s;
+	}
+
+	.feature-card:hover {
+		border-color: var(--vp-c-brand);
+	}
+
+	.feature-icon {
+		font-size: 28px;
+		display: block;
+		margin-bottom: 12px;
+	}
+
+	.feature-card h3 {
+		font-size: 16px;
+		font-weight: 600;
+		color: var(--vp-c-text-1);
+		margin-bottom: 8px;
+	}
+
+	.feature-card p {
+		font-size: 14px;
+		color: var(--vp-c-text-2);
+		line-height: 1.6;
+		margin: 0;
+	}
+
+	/* Philosophy Grid */
+	.philosophy-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 20px;
+	}
+
+	.philosophy-card {
+		background: var(--vp-c-bg-soft);
+		border: 1px solid var(--vp-c-divider);
+		border-radius: 12px;
+		padding: 24px;
+	}
+
+	.philosophy-card h3 {
+		font-size: 16px;
+		font-weight: 600;
+		color: var(--vp-c-text-1);
+		margin-bottom: 8px;
+	}
+
+	.philosophy-card p {
+		font-size: 14px;
+		color: var(--vp-c-text-2);
+		line-height: 1.6;
+		margin: 0;
+	}
+
+	/* Freedom Examples */
+	.freedom-examples {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		margin-top: 24px;
+	}
+
+	.freedom-item {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		padding: 16px;
+		background: var(--vp-c-bg);
+		border-radius: 8px;
+		border: 1px solid var(--vp-c-divider);
+	}
+
+	.freedom-item strong {
+		color: var(--vp-c-text-1);
+	}
+
+	.freedom-item span {
+		color: var(--vp-c-text-2);
+		font-size: 14px;
+	}
+
+	/* Limitations */
+	.limitations-list {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		margin: 24px 0;
+	}
+
+	.limitation-item {
+		display: flex;
+		align-items: flex-start;
+		gap: 16px;
+		padding: 20px;
+		background: var(--vp-c-bg-soft);
+		border: 1px solid var(--vp-c-divider);
+		border-radius: 12px;
+	}
+
+	.limitation-number {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 32px;
+		height: 32px;
+		background: var(--vp-c-bg-mute);
+		color: var(--vp-c-text-2);
+		font-size: 14px;
+		font-weight: 600;
+		border-radius: 50%;
+		flex-shrink: 0;
+	}
+
+	.limitation-item strong {
+		display: block;
+		color: var(--vp-c-text-1);
+		margin-bottom: 4px;
+	}
+
+	.limitation-item p {
+		font-size: 14px;
+		color: var(--vp-c-text-2);
+		margin: 0;
+	}
+
+	.limitation-note {
+		font-size: 15px;
+		color: var(--vp-c-text-3);
+		font-style: italic;
+	}
+
+	/* CTA Section */
+	.cta-section {
+		text-align: center;
+		padding: 48px;
+		background: var(--vp-c-bg-soft);
+		border: 1px solid var(--vp-c-divider);
+		border-radius: 16px;
+	}
+
+	.cta-section h2 {
+		font-size: 32px;
+		font-weight: 700;
+		color: var(--vp-c-text-1);
+		margin-bottom: 12px;
+	}
+
+	.cta-section p {
+		font-size: 16px;
+		color: var(--vp-c-text-2);
+		margin-bottom: 24px;
+	}
+
+	.cta-actions {
+		display: flex;
+		justify-content: center;
+		gap: 12px;
+		flex-wrap: wrap;
+	}
+
+	/* Responsive */
+	@media (max-width: 768px) {
+		.project-title {
+			font-size: 36px;
+		}
+
+		.benefit-grid,
+		.features-grid,
+		.philosophy-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.table-header,
+		.table-row {
+			grid-template-columns: 1.5fr 1fr 1fr;
+			font-size: 12px;
+			padding: 12px 16px;
+		}
+
+		.content-section.highlight {
+			margin-left: -24px;
+			margin-right: -24px;
+			border-radius: 0;
+		}
+	}
+
+	@media (min-width: 960px) {
+		.page-container {
+			padding: calc(var(--vp-nav-height) + 48px) 64px 128px;
+		}
+	}
+</style>

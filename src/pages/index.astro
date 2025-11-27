@@ -1,11 +1,46 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Hero from '../components/Hero.astro';
+import Features from '../components/Features.astro';
+import Footer from '../components/Footer.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const features = [
+	{
+		icon: 'bot',
+		title: 'CoreBot',
+		description: 'My main project — a Discord bot framework that handles all the boring infrastructure stuff so you can just build features.'
+	},
+	{
+		icon: 'code',
+		title: 'Open Source',
+		description: 'I share what I build. If it helps someone else, that\'s cool. Check it out on GitHub.'
+	},
+	{
+		icon: 'zap',
+		title: 'Modern Stack',
+		description: 'TypeScript, ESM, Node.js. Clean code that works and doesn\'t make you want to pull your hair out.'
+	},
+];
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="RIKTIGATOMTEN - Developer Portfolio">
+	<Navbar currentPath="/" />
+	<main>
+		<Hero 
+			name="RIKTIGATOMTEN"
+			tagline="Developer"
+			description="Hey, I'm a developer who builds tools and Discord bots. Mostly working on CoreBot and other open source stuff."
+			primaryAction={{
+				text: "View Projects",
+				href: "/projects"
+			}}
+			secondaryAction={{
+				text: "GitHub",
+				href: "https://github.com/RIKTIGATOMTEN"
+			}}
+		/>
+		<Features features={features} />
+	</main>
+	<Footer />
 </Layout>
